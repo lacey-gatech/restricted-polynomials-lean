@@ -19,8 +19,8 @@ then $A$ contains a restricted progression
 
 $$x,\quad x + P_1(y),\quad \ldots,\quad x + P_{k-1}(y), \qquad P_j(y) = (y_1^j, \ldots, y_n^j),$$
 
-with $y \in \{0, 2, 3, \ldots, M_k\}^n \setminus \{0\}$, and its $k$ points are pairwise
-distinct.
+with $y \in \{0, 2, 3, \ldots, M_k\}^n\setminus \{0\}^n$, and its $k$ points are pairwise
+distinct. 
 
 In Lean this is `RestrictedPolynomials.main_theorem : MainTheorem`, with `MainTheorem` defined
 in [`Statement.lean`](RestrictedPolynomials/Statement.lean):
