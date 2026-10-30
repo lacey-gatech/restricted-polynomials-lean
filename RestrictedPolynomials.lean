@@ -14,6 +14,14 @@ import RestrictedPolynomials.Kronecker
 import RestrictedPolynomials.Minors
 import RestrictedPolynomials.MinorIdeal
 import RestrictedPolynomials.FullRank
+import RestrictedPolynomials.Dimitrov
+import RestrictedPolynomials.QuantDefs
+import RestrictedPolynomials.QuantParams
+import RestrictedPolynomials.DetEstimate
+import RestrictedPolynomials.EffBezout
+import RestrictedPolynomials.CyclotomicOrder
+import RestrictedPolynomials.RootsOfUnity
+import RestrictedPolynomials.QuantFullRank
 import RestrictedPolynomials.DiffChar
 import RestrictedPolynomials.NoEmbedding
 import RestrictedPolynomials.Main

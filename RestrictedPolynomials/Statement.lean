@@ -3,9 +3,10 @@ import RestrictedPolynomials.Defs
 /-!
 # The admitted inverse theorem and the statement of the main theorem
 
-This file contains the single `admit` of the formalization: the inverse theorem of
-Bhangale, Khot, Liu and Minzer [CSP_7, Theorem 1] (Theorem 1.4 of the paper). Everything else
-is proved from it.
+This file contains the first of the two `admit`s of the formalization: the inverse theorem of
+Bhangale, Khot, Liu and Minzer [CSP_7, Theorem 1] (Theorem 1.4 of the paper). The second is
+Dimitrov's theorem (`Dimitrov.lean`), used only for the explicit bounds on `M_k` and `P_k`.
+Everything else is proved from these.
 
 The admitted statement is a special case of the one quoted in the paper, in three harmless ways:
 all alphabets `Σ₁, …, Σ_k` are the same finite type `α`; the functions are real-valued rather
@@ -43,17 +44,22 @@ theorem inverse_theorem :
   admit
 
 /-- **Theorem 1.1**, as a proposition. There is an absolute constant `C₁` (so `K = k^{C₁ k}` is
-`k^{O(k)}`) such that for every `k ≥ 2` there are `M = M_k` and `P = P_k` with the following
+`k^{O(k)}`) such that for every `k ≥ 2` there are `M = M_k` and `P = P_k`, with
+`M_k ≤ exp(7 k log k) = exp(O(k log k))` and `P_k ≤ exp exp(25 k² log k) = exp exp(O(k² log k))`
+(the quantitative proof of Proposition 5.1, which uses Dimitrov's theorem), with the following
 property. For every prime `p ≥ P` there are `C, c > 0` such that if `n > exp^{(K)}(1)` and
 `A ⊆ 𝔽_p^n` has density at least `C / (log^{(K)} n)^c`, then `A` contains a restricted progression
 `x, x + P_1(y), …, x + P_{k-1}(y)` with `y ∈ {0, 2, 3, …, M}^n \ {0}`, whose `k` points are
 pairwise distinct. -/
 def MainTheorem : Prop :=
-  ∃ C₁ : ℕ, ∀ k : ℕ, 2 ≤ k → ∃ M P : ℕ, ∀ p : ℕ, p.Prime → P ≤ p →
-    ∃ C c : ℝ, 0 < C ∧ 0 < c ∧ ∀ n : ℕ, Real.exp^[k ^ (C₁ * k)] 1 < n →
-      ∀ A : Finset (Fin n → ZMod p),
-        C / (Real.log^[k ^ (C₁ * k)] n) ^ c ≤ (A.card : ℝ) / (p : ℝ) ^ n →
-        HasRestrictedProgression p M k (A : Set (Fin n → ZMod p))
+  ∃ C₁ : ℕ, ∀ k : ℕ, 2 ≤ k → ∃ M P : ℕ,
+    (M : ℝ) ≤ Real.exp (7 * k * Real.log k) ∧
+    (P : ℝ) ≤ Real.exp (Real.exp (25 * k ^ 2 * Real.log k)) ∧
+    ∀ p : ℕ, p.Prime → P ≤ p →
+      ∃ C c : ℝ, 0 < C ∧ 0 < c ∧ ∀ n : ℕ, Real.exp^[k ^ (C₁ * k)] 1 < n →
+        ∀ A : Finset (Fin n → ZMod p),
+          C / (Real.log^[k ^ (C₁ * k)] n) ^ c ≤ (A.card : ℝ) / (p : ℝ) ^ n →
+          HasRestrictedProgression p M k (A : Set (Fin n → ZMod p))
 
 end RestrictedPolynomials
 

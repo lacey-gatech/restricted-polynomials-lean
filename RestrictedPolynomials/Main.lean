@@ -337,8 +337,8 @@ theorem dimension_bound {p k M : ℕ} [NeZero p] (hM : 2 ≤ M) (hk : 2 ≤ k) (
 theorem main_theorem : MainTheorem := by
   obtain ⟨C₀, hC₀⟩ := inverse_theorem_all_dims
   refine ⟨C₀ + 2, fun k hk => ?_⟩
-  obtain ⟨M, P, hM, hMP⟩ := exists_M_P k hk
-  refine ⟨M, P, fun p hp hPp => ?_⟩
+  obtain ⟨M, P, hM, hMb, hPb, hMP⟩ := exists_M_P k hk
+  refine ⟨M, P, hMb, hPb, fun p hp hPp => ?_⟩
   have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨hMp1, hemb⟩ := hMP p hp hPp
   have hMp : M < p := by
