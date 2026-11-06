@@ -1,0 +1,173 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Reasonable bounds for restricted polynomial progressions in F_p^n"
+  description: >-
+    A complete Lean 4 / Mathlib formalization of Theorem 1.1 of Burgin, Fragkos, Kruzel, Lacey and
+    Stokolosa (arXiv:2610.12831). For k ≥ 2 there are M_k ≤ exp(7 k log k) and
+    P_k ≤ exp exp(25 k² log k), and an absolute constant C₁, such that for every prime p ≥ P_k
+    there are C, c > 0 with the following property. Every A ⊆ F_p^n with n > exp^{(K)}(1) and
+    density at least C / (log^{(K)} n)^c, where K = k^{C₁ k}, contains a restricted polynomial
+    progression x, x + P_1(y), …, x + P_{k-1}(y), with P_j(y) = (y_1^j, …, y_n^j) and
+    y ∈ {0, 2, 3, …, M_k}^n \ {0}. Moreover, the k points of any such progression are pairwise
+    distinct. The formalization also proves the two theorems that the paper cites from the
+    literature and does not prove. The first is the inverse theorem of Bhangale, Khot, Liu and
+    Minzer for noise stability under distributions with no abelian embedding (Theorem 1.4 of the
+    paper, which is Theorem 1 of their "On approximability of satisfiable k-CSPs: VII"), in full
+    generality. The second is Dimitrov's theorem on the Schinzel–Zassenhaus conjecture
+    (Theorem 5.11 of the paper). Only Lean's standard axioms are used.
+  authors:
+    - "Michael Lacey"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Michael Lacey"
+
+classification:
+  arxiv: ["math.NT", "math.CO"]
+  msc2020: ["11B30", "05D10", "11T06", "11R06"]
+
+sources:
+  - title: "Reasonable bounds for Restricted Polynomial Progressions in F_p^n"
+    authors:
+      - "Alex Burgin"
+      - "Anastasios Fragkos"
+      - "David Kruzel"
+      - "Michael Lacey"
+      - "Amelia Stokolosa"
+    id: "arXiv:2610.12831"
+    type: paper
+    location: "https://arxiv.org/abs/2610.12831"
+    relationship: formalizes
+    note: >-
+      Theorem 1.1 is the compared theorem; it and Theorems 1.4 and 5.11 are stated and proved
+      as in the paper, with explicit constants in place of O(·). The intermediate results are all
+      proved, some in a specialised or restated form (for example Proposition 3.1 only for
+      M = M(ℓ), and Lemma 3.5 with the full-rank statement of Proposition 5.1 as a hypothesis
+      that is discharged where the two are combined); the README section "Differences from the
+      paper" lists every such change.
+    author_endorsement: participated
+  - title: "On approximability of satisfiable k-CSPs: VII"
+    authors:
+      - "Amey Bhangale"
+      - "Subhash Khot"
+      - "Yang P. Liu"
+      - "Dor Minzer"
+    id: "arXiv:2411.15136"
+    type: paper
+    location: "https://arxiv.org/abs/2411.15136"
+    relationship: formalizes
+    note: >-
+      Theorem 1 of this paper is Theorem 1.4 of the source paper, and it is formalized in full
+      generality as RestrictedPolynomials.inverse_theorem_bklm. Its proof follows this paper
+      (the K7 recursion) together with parts IV and VI. Steps that the published proofs leave
+      unargued were first repaired in written supplements (see the README); none changes a
+      statement.
+    author_endorsement: not-contacted
+  - title: "On approximability of satisfiable k-CSPs: VI"
+    authors:
+      - "Amey Bhangale"
+      - "Subhash Khot"
+      - "Yang P. Liu"
+      - "Dor Minzer"
+    id: "arXiv:2411.15133"
+    type: paper
+    location: "https://arxiv.org/abs/2411.15133"
+    relationship: formalizes
+    note: "Its main theorem is formalized as a step in the proof of Theorem 1.4."
+    author_endorsement: not-contacted
+  - title: "On approximability of satisfiable k-CSPs: IV"
+    authors:
+      - "Amey Bhangale"
+      - "Subhash Khot"
+      - "Dor Minzer"
+    id: "arXiv:2307.16248"
+    type: paper
+    location: "https://arxiv.org/abs/2307.16248 (also STOC '24: Proceedings of the 56th Annual ACM Symposium on Theory of Computing, pp. 1423–1434)"
+    relationship: formalizes
+    note: >-
+      The maximality induction, the stability theory and Appendix B are formalized as steps in the
+      proof of Theorem 1.4.
+    author_endorsement: not-contacted
+  - title: "A proof of the Schinzel-Zassenhaus conjecture on polynomials"
+    authors:
+      - "Vesselin Dimitrov"
+    id: "arXiv:1912.12545"
+    type: paper
+    location: "https://arxiv.org/abs/1912.12545"
+    relationship: formalizes
+    note: >-
+      Theorem 1 is Theorem 5.11 of the source paper, formalized as RestrictedPolynomials.dimitrov
+      and used for the explicit bounds on M_k and P_k.
+    author_endorsement: not-contacted
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Theorem 1.1 is proved exactly as stated in Challenge.lean, together with every intermediate
+    result of the paper and the two cited theorems (Theorems 1.4 and 5.11). The constants M_k and
+    P_k are explicit, and K = k^{C₁ k} with C₁ absolute. Nothing is assumed: the statement has no
+    hypotheses beyond those of the paper.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["Claude Opus 5.5", "Claude Sonnet 5.5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        An orchestrating agent coordinated prover, auditor and reviewer sub-agents with the Lean
+        toolchain, Mathlib search and a source-level proof dependency graph of the paper and its
+        cited sources.
+      prompting_notes: >-
+        A human maintainer approved every source-facing Lean statement before it was frozen,
+        ruled on each source repair, and approved the final assembly of each proof.
+  spend_usd: "subscription-based"
+  notes: >-
+    The Lean code was written by AI agents. The mathematical statements of Theorems 1.1, 1.4 and
+    5.11, and of the definitions they use, were fixed and approved by a human maintainer before
+    any proof work, and were then frozen byte for byte. Steps that a cited source leaves unargued
+    were first repaired in written supplements, which were independently reviewed and adopted by
+    author ruling before they were formalized.
+
+fidelity:
+  divergences: >-
+    None in the compared statement: Theorem 1.1 is stated with explicit bounds
+    M_k ≤ exp(7 k log k) and P_k ≤ exp exp(25 k² log k) in place of the paper's
+    exp(O(k log k)) and exp exp(O(k² log k)), and K = k^{C₁ k} in place of k^{O(k)}. Differences
+    of presentation inside the proof are listed in the README.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "independent AI auditor agents (statement, binder and axiom audits)"
+  notes: >-
+    Each frozen statement was audited against the pinned source by an auditor independent of
+    its author before approval. The proof was checked by a full lake build with no sorry, and by
+    #print axioms (propext, Classical.choice, Quot.sound only). A human maintainer rebuilt the
+    project from a clean build directory, outside the agent workflow, and confirmed that no
+    sorry remains. No human peer review of the Lean proof has been performed.
+
+alignment:
+  namespace: "RestrictedPolynomials"
+  statements:
+    - source: "Theorem 1.1"
+      lean: "RestrictedPolynomials.main_theorem"
+      module: "RestrictedPolynomials.Frozen.MainTheoremProof"
+      status: "proved"
+      note: "Compared by Comparator against Challenge.lean."
+    - source: "Theorem 1.4 (BKLM VII, Theorem 1)"
+      lean: "RestrictedPolynomials.inverse_theorem_bklm"
+      module: "RestrictedPolynomials.Frozen.InverseTheoremBKLM"
+      status: "proved"
+      note: "Not compared by Comparator; it is used in the proof of Theorem 1.1."
+    - source: "Theorem 5.11 (Dimitrov, Theorem 1)"
+      lean: "RestrictedPolynomials.dimitrov"
+      module: "RestrictedPolynomials.Frozen.Dimitrov"
+      status: "proved"
+      note: "Not compared by Comparator; it is used in the proof of Theorem 1.1."
+
+acknowledgements: "Built on Mathlib. Repository layout and CI follow the Palomar starter template."

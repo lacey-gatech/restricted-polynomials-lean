@@ -1,6 +1,6 @@
 name = "restrictedPolynomials"
 version = "0.1.0"
-defaultTargets = ["RestrictedPolynomials"]
+defaultTargets = ["RestrictedPolynomials", "Challenge"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -13,3 +13,7 @@ rev = "v4.35.0"
 
 [[lean_lib]]
 name = "RestrictedPolynomials"
+
+[[lean_lib]]
+name = "Challenge"
+roots = ["Challenge"]

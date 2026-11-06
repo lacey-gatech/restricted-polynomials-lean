@@ -32,7 +32,16 @@ $$x,\quad x + P_1(y),\quad \ldots,\quad x + P_{k-1}(y), \qquad P_j(y) = (y_1^j, 
 with $y \in \lbrace 0, 2, 3, \ldots, M_k\rbrace^n\setminus \lbrace 0\rbrace^n$. Moreover, the $k$ points of any such
 progression are pairwise distinct.
 
-The statement is
+The statement of record is [`Challenge.lean`](Challenge.lean): it is short, imports only Mathlib,
+and is the file a reader should audit. Its theorem is
+
+```lean
+theorem main_theorem : MainTheorem := by
+  sorry
+```
+
+where the `sorry` is the deliberate hole that [Comparator](https://github.com/leanprover/comparator)
+fills with the library's proof, and
 
 ```lean
 def MainTheorem : Prop :=
@@ -55,8 +64,18 @@ $P_k \le \exp\exp(25k^2\log k)$ make the paper's $O(\cdot)$ explicit, and $K = k
 $C_1$ absolute.
 
 In the library the theorem is `RestrictedPolynomials.main_theorem`, in
-[`Frozen/MainTheoremProof.lean`](RestrictedPolynomials/Frozen/MainTheoremProof.lean). `MainTheorem`
-and the definitions it uses are in [`Frozen/`](RestrictedPolynomials/Frozen/).
+[`Frozen/MainTheoremProof.lean`](RestrictedPolynomials/Frozen/MainTheoremProof.lean). The four
+definitions are in [`Frozen/`](RestrictedPolynomials/Frozen/), with the same bodies and imports as
+in `Challenge.lean`.
+
+## Palomar submission layout
+
+| File | Role |
+|---|---|
+| [`Challenge.lean`](Challenge.lean) | The statement of Theorem 1.1, with a deliberate `sorry`; Mathlib-only imports |
+| [`Frozen/MainTheoremProof.lean`](RestrictedPolynomials/Frozen/MainTheoremProof.lean) | The Solution module: declares and proves `RestrictedPolynomials.main_theorem` |
+| [`comparator.json`](comparator.json) | Compares `RestrictedPolynomials.main_theorem`; permitted axioms `propext`, `Quot.sound`, `Classical.choice` |
+| [`formalization.yaml`](formalization.yaml) | Structured metadata: sources, authorship, AI use, review, scope |
 
 Every Lean file is a module of at most 10,000 lines.
 
@@ -70,24 +89,36 @@ that nothing large is compiled locally:
 lake exe cache get
 ```
 
-Then build the library:
+Then build the library and the Challenge:
 
 ```bash
 lake build
 ```
 
-The build should finish with no `declaration uses 'sorry'` warning. The other warnings are style
-lints. To confirm that the main theorem and the two cited theorems depend only on Lean's standard
-axioms, check a file containing
+The only `declaration uses 'sorry'` warning is the deliberate one in `Challenge.lean`. The other
+warnings are style lints.
 
-```lean
-import RestrictedPolynomials
-#print axioms RestrictedPolynomials.main_theorem
-#print axioms RestrictedPolynomials.inverse_theorem_bklm
-#print axioms RestrictedPolynomials.dimitrov
+```bash
+python3 scripts/check-no-sorry.py
 ```
 
-Each reports exactly `propext`, `Classical.choice` and `Quot.sound`.
+checks, with comments masked, that no Lean file other than `Challenge.lean` contains `sorry`,
+`admit` or `axiom`, and
+
+```bash
+bash scripts/print-axioms.sh
+```
+
+prints the axioms of `main_theorem`, `inverse_theorem_bklm` and `dimitrov`. Each reports exactly
+`propext`, `Classical.choice` and `Quot.sound`.
+
+To run Comparator as Palomar does (Linux with `bubblewrap` only), use
+
+```bash
+./scripts/verify-comparator.sh
+```
+
+The CI workflow runs all of these on every push.
 
 ## The two cited theorems
 
@@ -231,7 +262,8 @@ statements of Theorems 1.1, 1.4 and 5.11, and of the definitions they use, befor
 Those statements were then frozen byte for byte. The maintainer also ruled on every repair of a
 cited proof. Each frozen statement was audited against its source by an agent independent of the
 one that wrote it. The proofs were checked by Lean's kernel through `lake build`, and the axioms
-were checked with `#print axioms`. No human has reviewed the Lean proofs line by line.
+were checked with `#print axioms`. No human has reviewed the Lean proofs line by line. See
+[`formalization.yaml`](formalization.yaml) for the structured record.
 
 ## Related work
 
@@ -260,4 +292,5 @@ in docstrings ("l. 1222", "L404") refer to the LaTeX sources of the arXiv versio
 
 ## License
 
-Apache-2.0; see [`LICENSE`](LICENSE).
+Apache-2.0; see [`LICENSE`](LICENSE). The CI scripts in `scripts/` and `test/` are adapted from
+the [Palomar starter template](https://github.com/PalomarRegistry/PalomarTemplate) (Apache-2.0).
