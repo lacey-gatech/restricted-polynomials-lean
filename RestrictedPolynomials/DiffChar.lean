@@ -1,7 +1,9 @@
-import RestrictedPolynomials.Counting
-import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
-import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
-import Mathlib.Algebra.Field.ZMod
+module
+
+public import RestrictedPolynomials.Counting
+public import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
+public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
+public import Mathlib.Algebra.Field.ZMod
 
 /-!
 # No abelian embeddings into `𝔽_q`, `q ≠ p` (Lemma 5.9)
@@ -13,6 +15,8 @@ hypothesis, and a function whose nontrivial coefficients vanish is constant.
 
 The full rank statement (Proposition 5.1) enters as the hypothesis `hfull`.
 -/
+
+@[expose] public section
 
 open Finset
 

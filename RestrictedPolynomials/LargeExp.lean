@@ -1,5 +1,7 @@
-import RestrictedPolynomials.Counting
-import Mathlib.Data.Fintype.Powerset
+module
+
+public import RestrictedPolynomials.Counting
+public import Mathlib.Data.Fintype.Powerset
 
 /-!
 # Lemma 6.3 (a large correlation) and Lemma 6.4 (fibers)
@@ -10,6 +12,8 @@ import Mathlib.Data.Fintype.Powerset
 * `large_exp` : **Lemma 6.3**.
 * `fiber_noProgression` : **Lemma 6.4**.
 -/
+
+@[expose] public section
 
 open Finset
 

@@ -1,6 +1,8 @@
-import RestrictedPolynomials.QuantDefs
-import Mathlib.LinearAlgebra.Matrix.DotProduct
-import Mathlib.LinearAlgebra.Matrix.AbsoluteValue
+module
+
+public import RestrictedPolynomials.QuantDefs
+public import Mathlib.LinearAlgebra.Matrix.DotProduct
+public import Mathlib.LinearAlgebra.Matrix.AbsoluteValue
 
 /-!
 # The effective Bézout identity (formula (5.12) of the paper)
@@ -15,6 +17,8 @@ coefficient vectors of `z^j Δ_i`. Choose a maximal linearly independent set of 
 then `v = (C_Sᵀ C_S)⁻¹ C_Sᵀ b` and `B = |det (C_Sᵀ C_S)|` works, with `B` bounded by
 `det_le` (Hadamard-type bound `n! x^n` for the entries).
 -/
+
+@[expose] public section
 
 open Finset Polynomial Matrix
 

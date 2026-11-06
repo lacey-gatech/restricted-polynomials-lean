@@ -1,7 +1,9 @@
-import RestrictedPolynomials.MinorIdeal
-import Mathlib.Algebra.CharP.Frobenius
-import Mathlib.GroupTheory.OrderOfElement
-import Mathlib.Algebra.Polynomial.Roots
+module
+
+public import RestrictedPolynomials.MinorIdeal
+public import Mathlib.Algebra.CharP.Frobenius
+public import Mathlib.GroupTheory.OrderOfElement
+public import Mathlib.Algebra.Polynomial.Roots
 
 /-!
 # Proposition 5.1 (full rank)
@@ -16,6 +18,8 @@ characteristics (`q ∣ N`, Lemma 5.8). In the exceptional case we bound the ord
 Frobenius orbit `λ, λ^q, λ^{q^2}, …` inside the roots of the monic minor with rows
 `2, …, ℓ + 1`; this is the degree argument of Lemma 5.8 in elementary form.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

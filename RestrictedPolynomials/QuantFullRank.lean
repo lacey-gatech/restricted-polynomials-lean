@@ -1,9 +1,11 @@
-import RestrictedPolynomials.FullRank
-import RestrictedPolynomials.QuantParams
-import RestrictedPolynomials.DetEstimate
-import RestrictedPolynomials.EffBezout
-import RestrictedPolynomials.RootsOfUnity
-import RestrictedPolynomials.CyclotomicOrder
+module
+
+public import RestrictedPolynomials.FullRank
+public import RestrictedPolynomials.QuantParams
+public import RestrictedPolynomials.DetEstimate
+public import RestrictedPolynomials.EffBezout
+public import RestrictedPolynomials.RootsOfUnity
+public import RestrictedPolynomials.CyclotomicOrder
 
 /-!
 # Proposition 5.1, quantitative proof (Section 5.3)
@@ -18,6 +20,8 @@ With `M = Mℓ ℓ = exp(O(ℓ log ℓ))` and `P = Pℓ ℓ = exp exp(O(ℓ² lo
 * Lemma 5.13 (`prime_order_le`) in characteristics `q ∤ B`; Lemma 5.14 (Frobenius orbit) when
   `q ∣ B`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

@@ -1,4 +1,6 @@
-import RestrictedPolynomials.Defs
+module
+
+public import RestrictedPolynomials.Defs
 
 /-!
 # Expectations under finite product measures
@@ -7,6 +9,8 @@ Basic facts about `FinProb.expect` and the product measure `FinProb.pi`: lineari
 independence of coordinates, the "swap" symmetry used for conditional expectations, and
 marginalization onto a subset of the coordinates.
 -/
+
+@[expose] public section
 
 open Finset
 

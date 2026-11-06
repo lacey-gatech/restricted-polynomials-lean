@@ -1,9 +1,11 @@
-import RestrictedPolynomials.Counting
-import RestrictedPolynomials.CyclicReduction
-import RestrictedPolynomials.SameChar
-import RestrictedPolynomials.DiffChar
-import RestrictedPolynomials.FullRank
-import RestrictedPolynomials.QuantFullRank
+module
+
+public import RestrictedPolynomials.Counting
+public import RestrictedPolynomials.CyclicReduction
+public import RestrictedPolynomials.SameChar
+public import RestrictedPolynomials.DiffChar
+public import RestrictedPolynomials.FullRank
+public import RestrictedPolynomials.QuantFullRank
 
 /-!
 # Proposition 3.1: the distribution `μ` admits no nontrivial abelian embedding
@@ -13,6 +15,8 @@ Proposition 5.1 (`full_rank_quant`), and `p > max(P(ℓ), M^ℓ)`: an abelian em
 of `μ` reduces to one into `ℤ/qℤ` (Lemma 3.7), which is trivial by Lemma 3.4 if `q = p` and by
 Lemma 3.5 (Lemma 5.9 here) if `q ≠ p`.
 -/
+
+@[expose] public section
 
 open Finset
 

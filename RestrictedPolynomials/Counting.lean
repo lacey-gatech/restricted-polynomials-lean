@@ -1,6 +1,8 @@
-import RestrictedPolynomials.Expect
-import Mathlib.Data.ZMod.Defs
-import Mathlib.Algebra.Order.Chebyshev
+module
+
+public import RestrictedPolynomials.Expect
+public import Mathlib.Data.ZMod.Defs
+public import Mathlib.Algebra.Order.Chebyshev
 
 /-!
 # The counting distribution (Lemma 6.3) and fibers (Lemma 6.4)
@@ -11,6 +13,8 @@ uniformly random diagonal tuple `(x, …, x)`, and otherwise `(x, x + y, …, x 
 `wt y` on pairs `(x, y) ∈ 𝔽_p × Y`, `Y = {0, 2, …, M}`, which makes expectations under
 `μ^{⊗n}` easy to compute.
 -/
+
+@[expose] public section
 
 open Finset
 

@@ -1,5 +1,7 @@
-import RestrictedPolynomials.Restriction
-import RestrictedPolynomials.LargeExp
+module
+
+public import RestrictedPolynomials.Restriction
+public import RestrictedPolynomials.LargeExp
 
 /-!
 # The density increment (Lemma 6.7) and its iteration
@@ -7,6 +9,8 @@ import RestrictedPolynomials.LargeExp
 The parameters `δ₀`, `d`, `N` enter only through the inequalities they satisfy, which are
 listed as hypotheses; their values are fixed in `Main.lean`.
 -/
+
+@[expose] public section
 
 open Finset
 

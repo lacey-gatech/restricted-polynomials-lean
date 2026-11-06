@@ -1,6 +1,11 @@
-import RestrictedPolynomials.Increment
-import RestrictedPolynomials.NoEmbedding
-import Mathlib.Analysis.SpecialFunctions.Log.Base
+module
+
+public import RestrictedPolynomials.Increment
+public import RestrictedPolynomials.InverseAllDims
+public import RestrictedPolynomials.NoEmbedding
+public import RestrictedPolynomials.ExpIterate
+public import RestrictedPolynomials.Frozen.MainTheorem
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
 
 /-!
 # Proof of Theorem 1.1
@@ -12,6 +17,8 @@ The parameters of Section 6: given the density `α₀`,
 * `N = max(⌈2d² log(32/δ₀)⌉, ⌈log₂ α₀^{1-k}⌉ + 1)`.
 -/
 
+@[expose] public section
+
 open Finset
 
 noncomputable section
@@ -19,24 +26,6 @@ noncomputable section
 namespace RestrictedPolynomials
 
 /-! ### Iterated exponentials and logarithms -/
-
-lemma le_exp_iterate (j : ℕ) (y : ℝ) : y ≤ Real.exp^[j] y := by
-  induction j generalizing y with
-  | zero => simp
-  | succ j ih =>
-    rw [Function.iterate_succ_apply]
-    exact le_trans (by linarith [Real.add_one_le_exp y]) (ih (Real.exp y))
-
-lemma exp_iterate_mono (j : ℕ) : Monotone (Real.exp^[j]) := Real.exp_monotone.iterate j
-
-lemma exp_iterate_le_succ (j : ℕ) (y : ℝ) : Real.exp^[j] y ≤ Real.exp^[j + 1] y := by
-  rw [Function.iterate_succ_apply]
-  exact exp_iterate_mono j (by linarith [Real.add_one_le_exp y])
-
-lemma exp_iterate_le_of_le {j j' : ℕ} (h : j ≤ j') (y : ℝ) : Real.exp^[j] y ≤ Real.exp^[j'] y := by
-  induction j', h using Nat.le_induction with
-  | base => rfl
-  | succ j' _ ih => exact ih.trans (exp_iterate_le_succ j' y)
 
 lemma exp_add_two_ge {a : ℝ} (ha : 0 ≤ a) : Real.exp a + 2 ≤ Real.exp (a + 2) := by
   rw [Real.exp_add]
@@ -333,14 +322,17 @@ theorem dimension_bound {p k M : ℕ} [NeZero p] (hM : 2 ≤ M) (hk : 2 ≤ k) (
 
 /-! ### Theorem 1.1 -/
 
-/-- **Theorem 1.1.** -/
-theorem main_theorem : MainTheorem := by
+/-- **Theorem 1.1**. The proof uses the frozen statements `inverse_theorem_bklm` (through
+`inverse_theorem`) and `dimitrov`, which are proved in `TrackB/` and `Dimitrov/`. The frozen
+statement `main_theorem` (`Frozen/MainTheoremProof.lean`) is proved by this theorem. -/
+theorem main_theorem_proof : MainTheorem := by
   obtain ⟨C₀, hC₀⟩ := inverse_theorem_all_dims
   refine ⟨C₀ + 2, fun k hk => ?_⟩
   obtain ⟨M, P, hM, hMb, hPb, hMP⟩ := exists_M_P k hk
   refine ⟨M, P, hMb, hPb, fun p hp hPp => ?_⟩
   have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨hMp1, hemb⟩ := hMP p hp hPp
+  refine ⟨fun n x y hy hy0 => progression_injective hMp1 x y hy hy0, ?_⟩
   have hMp : M < p := by
     calc M = M ^ 1 := (pow_one M).symm
       _ ≤ M ^ (k - 1) := Nat.pow_le_pow_right (by omega) (by omega)

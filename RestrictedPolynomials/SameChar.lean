@@ -1,11 +1,13 @@
-import RestrictedPolynomials.Counting
-import Mathlib.LinearAlgebra.Matrix.Adjugate
-import Mathlib.LinearAlgebra.Vandermonde
-import Mathlib.Algebra.CharP.Lemmas
-import Mathlib.RingTheory.PrincipalIdealDomain
-import Mathlib.Algebra.Polynomial.FieldDivision
-import Mathlib.Algebra.Ring.GeomSum
-import Mathlib.Algebra.Field.ZMod
+module
+
+public import RestrictedPolynomials.Counting
+public import Mathlib.LinearAlgebra.Matrix.Adjugate
+public import Mathlib.LinearAlgebra.Vandermonde
+public import Mathlib.Algebra.CharP.Lemmas
+public import Mathlib.RingTheory.PrincipalIdealDomain
+public import Mathlib.Algebra.Polynomial.FieldDivision
+public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Algebra.Field.ZMod
 
 /-!
 # No abelian embeddings into `𝔽_p` (Lemma 4.1)
@@ -17,6 +19,8 @@ because `det B(1)` is a nonzero Vandermonde-type determinant.
 
 Here the progression has `ℓ + 1` terms, indexed by `Fin (ℓ + 1)`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

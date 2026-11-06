@@ -1,4 +1,6 @@
-import Mathlib.Probability.Moments.SubGaussian
+module
+
+public import Mathlib.Probability.Moments.SubGaussian
 
 /-!
 # Hoeffding's lemma for a Bernoulli random variable
@@ -7,6 +9,8 @@ The real inequality `(1 - q) e^{tq} + q e^{t(q-1)} ≤ e^{t²/8}` for `q ∈ [0,
 Mathlib's Hoeffding lemma (`ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`) applied to the
 two-point measure `(1 - q) δ₀ + q δ₁`.
 -/
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory
 

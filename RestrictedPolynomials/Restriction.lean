@@ -1,7 +1,9 @@
-import RestrictedPolynomials.Stability
-import RestrictedPolynomials.Hoeffding
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Analysis.Complex.ExponentialBounds
+module
+
+public import RestrictedPolynomials.Stability
+public import RestrictedPolynomials.Hoeffding
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Analysis.Complex.ExponentialBounds
 
 /-!
 # Random restrictions (Lemma 6.2)
@@ -10,6 +12,8 @@ A random set `S` of free coordinates, containing each coordinate independently w
 probability `1/d`, is modelled by a sample `s` of the product measure `Bernoulli(1/d)^{⊗ι}`,
 with `S = {i : s i = true}`.
 -/
+
+@[expose] public section
 
 open Finset
 

@@ -1,6 +1,8 @@
-import RestrictedPolynomials.Defs
-import Mathlib.GroupTheory.FiniteAbelian.Basic
-import Mathlib.Data.ZMod.IntUnitsPower
+module
+
+public import RestrictedPolynomials.Defs
+public import Mathlib.GroupTheory.FiniteAbelian.Basic
+public import Mathlib.Data.ZMod.IntUnitsPower
 
 /-!
 # Reduction to cyclic groups of prime order (Lemma 3.1)
@@ -8,6 +10,8 @@ import Mathlib.Data.ZMod.IntUnitsPower
 If `S ⊆ α^k` admits a nontrivial abelian embedding into some abelian group, then it admits one
 into `ℤ/qℤ` for some prime `q`.
 -/
+
+@[expose] public section
 
 open Finset
 

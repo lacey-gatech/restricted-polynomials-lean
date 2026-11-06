@@ -1,7 +1,9 @@
-import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+public import Mathlib.Analysis.SpecificLimits.Basic
 
 /-!
 # Kronecker's theorem and the infinite matrix (Lemmas 5.2 and 5.4)
@@ -16,6 +18,8 @@ import Mathlib.Analysis.SpecificLimits.Basic
   concludes. (With the closed-disk form of Kronecker's theorem, the case `|θ|_v < 1` of the
   paper is not needed.)
 -/
+
+@[expose] public section
 
 open Finset
 

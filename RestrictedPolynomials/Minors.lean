@@ -1,11 +1,13 @@
-import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Basis.VectorSpace
-import Mathlib.LinearAlgebra.Dimension.Finrank
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.Algebra.Polynomial.BigOperators
-import Mathlib.GroupTheory.Perm.Support
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.LinearAlgebra.Dimension.Finrank
+public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
+public import Mathlib.Algebra.Polynomial.BigOperators
+public import Mathlib.GroupTheory.Perm.Support
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 
 /-!
 # The minors of the infinite matrix `A_{ℓ,∞}(z) = (z^{y^j} - 1)_{y ≥ 2, 1 ≤ j ≤ ℓ}`
@@ -17,6 +19,8 @@ import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 
 Columns are indexed by `j : Fin ℓ` and carry the exponent `j + 1`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

@@ -1,8 +1,12 @@
-import RestrictedPolynomials.QuantDefs
+module
+
+public import RestrictedPolynomials.QuantDefs
 
 /-!
 # Lemma 5.10: the determinant estimate, and coefficient bounds for the minors
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

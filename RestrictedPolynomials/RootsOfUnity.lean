@@ -1,17 +1,21 @@
-import RestrictedPolynomials.DetEstimate
-import RestrictedPolynomials.Dimitrov
-import Mathlib.NumberTheory.Cyclotomic.Basic
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+module
+
+public import RestrictedPolynomials.DetEstimate
+public import RestrictedPolynomials.Frozen.Dimitrov
+public import Mathlib.NumberTheory.Cyclotomic.Basic
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
 
 /-!
 # Lemma 5.12
 
 * `root_of_unity_of_gcd` : **Lemma 5.12**. For `M` large, every nonzero complex root of a monic
   common divisor `D ∈ ℤ[z]` of the minors of `A_{ℓ,M}` is a root of unity. (Lemma 5.10 bounds
-  all conjugates, and Dimitrov's theorem, admitted in `Dimitrov.lean`, excludes
+  all conjugates, and Dimitrov's theorem (`dimitrov`, in `Frozen/Dimitrov.lean`) excludes
   non-cyclotomic minimal polynomials.)
 * Lemma 5.13 (`prime_order_le`) is in `CyclotomicOrder.lean`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

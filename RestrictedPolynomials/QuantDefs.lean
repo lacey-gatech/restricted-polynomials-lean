@@ -1,4 +1,6 @@
-import RestrictedPolynomials.MinorIdeal
+module
+
+public import RestrictedPolynomials.MinorIdeal
 
 /-!
 # Parameters of the quantitative proof of Proposition 5.1 (Section 5.3)
@@ -8,6 +10,8 @@ import RestrictedPolynomials.MinorIdeal
 * `dℓ ℓ = ∑_{r=1}^ℓ (r+1)^r` : the degree of the minor with rows `2, …, ℓ+1`.
 * `nℓ ℓ M = ∑_{r=1}^ℓ (M-ℓ+r)^r` : the bound for the degree of every minor of `A_{ℓ,M}`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 

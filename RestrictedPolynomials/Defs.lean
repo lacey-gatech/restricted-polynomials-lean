@@ -1,24 +1,33 @@
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Data.Fintype.Pi
-import Mathlib.Data.ZMod.Basic
+module
+
+public import RestrictedPolynomials.FinProb
+public import RestrictedPolynomials.Frozen.FinProbPi
+public import RestrictedPolynomials.Frozen.FinProbSupport
+public import RestrictedPolynomials.Frozen.NoiseKernel
+public import RestrictedPolynomials.Frozen.StepSet
+public import RestrictedPolynomials.Frozen.PolyTerm
+public import RestrictedPolynomials.Frozen.HasRestrictedProgression
 
 /-!
 # Definitions
 
-The objects of the paper, stated with as little machinery as possible.
+The objects of the paper, stated with as little machinery as possible. The definitions that
+carry the meaning of the frozen statements live one per file in `RestrictedPolynomials.Frozen`
+(`FinProb.pi`, `FinProb.support`, `noiseKernel`, `stepSet`, `polyTerm`,
+`HasRestrictedProgression`, ...) and the structure `FinProb` in `RestrictedPolynomials.FinProb`;
+this file imports them and adds the rest.
 
-* `FinProb α` : a probability distribution on a finite set `α`, with expectation `expect`,
-  product measure `pi` (the paper's `π^{⊗n}`) and marginals `marginal`.
+* `FinProb.expect`, `FinProb.marginal`, `FinProb.uniform` : expectation, marginals and the
+  uniform distribution.
 * `noiseOp`, `stab` : the noise operator `N_ρ` and the stability `Stab_ρ` (Section 2).
 * `condExp`, `esPart`, `lowDegWeight` : the Efron–Stein decomposition and `W_{≤d}` (Section 2).
 * `IsAbelianEmbedding`, `NoNontrivialAbelianEmbedding` : Definition 1.3.
-* `stepSet`, `polyTerm`, `HasRestrictedProgression` : the configuration of Theorem 1.1.
 
 Coordinates are indexed by an arbitrary finite type `ι` rather than `Fin n`, because
 restricting to a coordinate fiber produces the index type `↥S` for `S : Finset ι`.
 -/
+
+@[expose] public section
 
 open Finset
 
@@ -28,29 +37,12 @@ namespace RestrictedPolynomials
 
 /-! ## Finite probability distributions -/
 
-/-- A probability distribution on a finite set. -/
-structure FinProb (α : Type*) [Fintype α] where
-  prob : α → ℝ
-  nonneg : ∀ a, 0 ≤ prob a
-  sum_eq_one : ∑ a, prob a = 1
-
 namespace FinProb
 
 variable {α : Type*} [Fintype α]
 
 /-- `𝔼_π f = ∑ₓ π(x) f(x)`. -/
 def expect (π : FinProb α) (f : α → ℝ) : ℝ := ∑ a, π.prob a * f a
-
-/-- The support `{a : π(a) ≠ 0}`. -/
-def support (π : FinProb α) : Set α := {a | π.prob a ≠ 0}
-
-/-- The product measure `π^{⊗ι}` on `ι → α`. -/
-def pi (π : FinProb α) (ι : Type*) [Fintype ι] [DecidableEq ι] : FinProb (ι → α) where
-  prob x := ∏ i, π.prob (x i)
-  nonneg _ := prod_nonneg fun i _ => π.nonneg _
-  sum_eq_one := by
-    rw [← Fintype.prod_sum (fun _ a => π.prob a)]
-    simp [π.sum_eq_one]
 
 /-- The marginal of a distribution on `Fin k → α` on its `j`-th coordinate. -/
 def marginal [DecidableEq α] {k : ℕ} (μ : FinProb (Fin k → α)) (j : Fin k) : FinProb α where
@@ -72,11 +64,6 @@ end FinProb
 section Noise
 
 variable {α : Type*} [Fintype α] [DecidableEq α] {ι : Type*} [Fintype ι] [DecidableEq ι]
-
-/-- The one-coordinate `ρ`-correlated kernel: `y = x` with probability `ρ`, and otherwise
-`y ∼ π` independently of `x`. -/
-def noiseKernel (π : FinProb α) (ρ : ℝ) (a b : α) : ℝ :=
-  ρ * (if a = b then 1 else 0) + (1 - ρ) * π.prob b
 
 /-- The noise operator `N_ρ = N_ρ^{⊗ι}`: the noise is applied independently in each coordinate,
 `N_ρ f(x) = 𝔼_{y ∼_ρ x} f(y)`. -/
@@ -122,23 +109,6 @@ def NoNontrivialAbelianEmbedding (S : Set (Fin k → α)) : Prop :=
     ∀ i a b, σ i a = σ i b
 
 end Embedding
-
-/-! ## Restricted polynomial progressions -/
-
-/-- The step set `Y = {0, 2, 3, …, M}`. -/
-def stepSet (M : ℕ) : Finset ℕ := insert 0 (Icc 2 M)
-
-/-- `P_j(y) = (y₁^j, …, y_n^j)` for `j ≥ 1`, and `P_0(y) = 0`, so that the progression
-`x + P_0(y), …, x + P_{k-1}(y)` is `x, x + P_1(y), …, x + P_{k-1}(y)`. -/
-def polyTerm {ι : Type*} {p : ℕ} (j : ℕ) (y : ι → ZMod p) : ι → ZMod p :=
-  fun i => if j = 0 then 0 else y i ^ j
-
-/-- `A` contains a nontrivial restricted `k`-term polynomial progression
-`x, x + P_1(y), …, x + P_{k-1}(y)` with `y ∈ Y^n \ {0}`, and its `k` points are pairwise
-distinct. -/
-def HasRestrictedProgression {ι : Type*} (p M k : ℕ) (A : Set (ι → ZMod p)) : Prop :=
-  ∃ x y : ι → ZMod p, (∀ i, ∃ t ∈ stepSet M, y i = t) ∧ y ≠ 0 ∧
-    (∀ j : Fin k, x + polyTerm j y ∈ A) ∧ Function.Injective fun j : Fin k => x + polyTerm j y
 
 end RestrictedPolynomials
 

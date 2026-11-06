@@ -1,6 +1,8 @@
-import RestrictedPolynomials.Expect
-import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import RestrictedPolynomials.Expect
+public import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
+public import Mathlib.Data.Nat.Choose.Sum
 
 /-!
 # The Efron–Stein decomposition
@@ -15,6 +17,8 @@ inclusion–exclusion formula of Section 2, we prove:
 * `noiseOp_eq` : `N_ρ f = ∑_S ρ^{|S|} f^{=S}`;
 * `stab_eq` : `Stab_ρ(f) = ∑_S ρ^{|S|} ‖f^{=S}‖₂²`.
 -/
+
+@[expose] public section
 
 open Finset
 

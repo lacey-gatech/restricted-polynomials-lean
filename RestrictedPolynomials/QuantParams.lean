@@ -1,5 +1,7 @@
-import RestrictedPolynomials.QuantDefs
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import RestrictedPolynomials.QuantDefs
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 
 /-!
 # The explicit parameters `M(ℓ)`, `P(ℓ)` of the quantitative proof, and their growth
@@ -9,6 +11,8 @@ import Mathlib.Analysis.SpecialFunctions.Pow.Real
 * `Bbd ℓ`, the bound `(2n)! (2n x²)^{2n}` of `effective_bezout` with `n = n_ℓ(M(ℓ))`, `x = 2^ℓ ℓ!`.
 * `Pℓ ℓ = max (d_ℓ + 1) (Bbd^{d_ℓ})` and `P(ℓ) = exp exp(O(ℓ² log ℓ))`.
 -/
+
+@[expose] public section
 
 open Finset
 

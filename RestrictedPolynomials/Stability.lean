@@ -1,14 +1,18 @@
-import RestrictedPolynomials.EfronStein
-import RestrictedPolynomials.Statement
+module
+
+public import RestrictedPolynomials.EfronStein
 
 /-!
-# From stability to low-degree weight, and the inverse theorem in every dimension
+# From stability to low-degree weight
 
 * `stability_lemma` : **Lemma 6.1**. If `Stab_{1-δ}(f - 𝔼f) > δ` for a `{0,1}`-valued `f`, then
   `W_{≤d}(f - 𝔼f) ≥ δ/2` for every integer `d ≥ δ⁻¹ log(2/δ)`.
-* `inverse_theorem_all_dims` : **Proposition 6.6**. The conclusion of the inverse theorem holds
-  in every dimension, by padding with dummy coordinates.
+
+Proposition 6.6 (`inverse_theorem_all_dims`) is in `InverseAllDims.lean`. That keeps this file
+independent of the frozen inverse-theorem draft.
 -/
+
+@[expose] public section
 
 open Finset
 
@@ -128,34 +132,6 @@ lemma stab_sumInl {κ : Type*} [Fintype κ] [DecidableEq ι] [DecidableEq κ] (�
   unfold stab
   simp only [noiseOp_sumInl]
   exact π.expect_sumInl (κ := κ) fun y => g y * noiseOp π ρ g y
-
-/-- **Proposition 6.6.** The conclusion of the inverse theorem holds in every dimension, with the
-same parameter `δ`. -/
-theorem inverse_theorem_all_dims :
-    ∃ C₀ : ℕ, ∀ (k : ℕ) (α : Type) [Fintype α] [DecidableEq α] (μ : FinProb (Fin k → α)),
-      NoNontrivialAbelianEmbedding μ.support →
-      ∃ b : ℝ, 0 < b ∧ ∀ ε : ℝ, 0 < ε →
-        ∀ (ι : Type) [Fintype ι] [DecidableEq ι],
-        ∀ f : Fin k → (ι → α) → ℝ, (∀ i x, |f i x| ≤ 1) →
-          ε ≤ |(μ.pi ι).expect fun X => ∏ i, f i fun t => X t i| →
-          ∀ i, inverseDelta C₀ k b ε <
-            stab (μ.marginal i) (1 - inverseDelta C₀ k b ε) (f i) := by
-  obtain ⟨C₀, hC₀⟩ := inverse_theorem
-  refine ⟨C₀, fun k α _ _ μ hμ => ?_⟩
-  obtain ⟨b, hb, hε⟩ := hC₀ k α μ hμ
-  refine ⟨b, hb, fun ε hεpos ι _ _ f hf hcorr i => ?_⟩
-  obtain ⟨n₀, hn₀⟩ := hε ε hεpos
-  -- pad with `n₀` dummy coordinates
-  let F : Fin k → (ι ⊕ Fin n₀ → α) → ℝ := fun j y => f j (y ∘ Sum.inl)
-  have hF : ∀ j y, |F j y| ≤ 1 := fun j y => hf j _
-  have hcard : n₀ ≤ Fintype.card (ι ⊕ Fin n₀) := by simp
-  have hcorrF : ε ≤ |(μ.pi (ι ⊕ Fin n₀)).expect fun X => ∏ j, F j fun t => X t j| := by
-    have := μ.expect_sumInl (ι := ι) (κ := Fin n₀) fun Y => ∏ j, f j fun t => Y t j
-    refine hcorr.trans (le_of_eq ?_)
-    rw [← this]
-    rfl
-  have := hn₀ (ι ⊕ Fin n₀) hcard F hF hcorrF i
-  simpa [F, stab_sumInl] using this
 
 end RestrictedPolynomials
 

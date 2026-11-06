@@ -1,6 +1,8 @@
-import RestrictedPolynomials.QuantDefs
-import Mathlib.NumberTheory.Cyclotomic.Basic
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+module
+
+public import RestrictedPolynomials.QuantDefs
+public import Mathlib.NumberTheory.Cyclotomic.Basic
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
 
 /-!
 # Lemma 5.13 (core): prime orders of roots of `D = z^a ∏ Φ_m^{e_m}`
@@ -9,6 +11,8 @@ If every nonzero complex root of a monic `D ∈ ℤ[z]` is a root of unity, then
 and a root `λ` of `D` of prime multiplicative order `p` in any field is a root of some `Φ_m`
 (so `λ^m = 1`, `p ∣ m`) with `p - 1 ≤ φ(m) ≤ deg D`.
 -/
+
+@[expose] public section
 
 open Finset Polynomial
 
